@@ -1,0 +1,50 @@
+body::-webkit-scrollbar {
+  display: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+}
+
+.menu-btn{
+display:flex;
+align-items:center;
+gap:16px;
+width:100%;
+padding:14px 24px;
+border-radius:9999px;
+color:#374151;
+font-weight:500;
+transition:0.2s;
+}
+
+.menu-btn:hover{
+background:#f3f4f6;
+}
+
+.menu-btn.active{
+background:#f3f4f6;
+color:#ef4444;
+}
+
+@media print {
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+body * {
+visibility: hidden;
+}
+
+#receipt, #receipt * {
+visibility: visible;
+}
+
+#receipt {
+position: absolute;
+left: 0;
+top: 0;
+width: 100%;
+}
+
+}

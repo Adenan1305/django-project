@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Noodle Shop</title>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+	<script src="https://cdn.tailwindcss.com"></script>
+	<script src="{% static 'home/js/products.js' %}" defer></script>
+	<script src="{% static 'home/js/card.js' %}" defer></script>
+</head>
+<body class="font-[Poppins] bg-gray-100">
+	<div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-[9999] transition-opacity">
+		<div class="w-12 h-12 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mb-6"></div>
+		<p class="text-white text-lg tracking-wide animate-pulse">Cooking your noodles...</p>
+	</div>
+
+	<header class="sticky top-0 z-50">
+		<nav class="flex items-center justify-between px-6 py-3 bg-white/80 backdrop-blur-lg shadow-md">
+			<div class="flex items-center gap-4 bg-white/50 backdrop-blur-md px-4 py-2 rounded-2xl border border-gray-200">
+				<a class="flex items-center gap-2" href="{% url 'portfolio:index' %}">
+					<span class="w-9 h-9 rounded-full overflow-hidden block">
+						<img src="{% static 'home/img/logo-NS.png' %}" class="w-full h-full object-cover" alt="Noodle Shop logo">
+					</span>
+					<span class="text-lg font-semibold text-gray-800">NOODLE SHOP</span>
+				</a>
+				<div class="w-px h-5 bg-gray-300"></div>
+				<ul class="flex items-center text-sm font-medium">
+					<li><a href="#home" class="px-4 py-1.5 rounded-lg text-orange-600 bg-orange-100 transition hover:bg-orange-500 hover:text-white">Home</a></li>
+					<li><a href="{% url 'portfolio:menu' %}" class="px-4 py-1.5 rounded-lg transition hover:bg-orange-500 hover:text-white">Menu</a></li>
+					<li><a href="{% url 'portfolio:service' %}" class="px-4 py-1.5 rounded-lg transition hover:bg-orange-500 hover:text-white">Service</a></li>
+				</ul>
+			</div>
+			<div class="flex items-center gap-6 ml-8">
+				<a href="{% url 'portfolio:cart' %}" class="text-2xl transition transform hover:scale-105" aria-label="View cart">🛒</a>
+				<div class="w-px h-6 bg-gray-300"></div>
+				{% if user.is_authenticated %}
+					<span class="text-sm text-gray-700">Hi, {{ user.email }}</span>
+					<form action="{% url 'portfolio:signout' %}" method="post">
+						{% csrf_token %}<button type="submit" class="bg-gray-800 text-white px-4 py-1.5 rounded-full hover:bg-gray-700 transition">Sign Out</button>
+					</form>
+				{% else %}
+					<a href="{% url 'portfolio:signin' %}" class="bg-orange-600 text-white px-4 py-1.5 rounded-full hover:bg-orange-500 transition transform hover:scale-105">Sign In</a>
+					<a href="{% url 'portfolio:register' %}" class="border border-orange-600 text-orange-600 px-4 py-1.5 rounded-full hover:bg-orange-50 transition">Register</a>
+				{% endif %}
+			</div>
+		</nav>
+	</header>
+
+	<main id="home">
+		<section class="relative min-h-screen flex items-center">
+			<div class="absolute inset-0">
+				<img src="{% static 'home/img/DSC09220.jpg' %}" class="w-full h-full object-cover" alt="A bowl of noodles">
+			</div>
+			<div class="absolute inset-0 bg-black/50"></div>
+			<div class="relative w-full flex items-center px-8 md:px-16">
+				<div class="text-white max-w-xl">
+					<span class="inline-block bg-orange-500/20 text-orange-300 px-4 py-1 rounded-full text-sm mb-6 backdrop-blur">Starting from just 50.-</span>
+					<h1 class="text-5xl md:text-6xl font-bold leading-tight mb-6">Hot Noodles <br><span class="text-orange-400">Bold Flavor</span> in Every Bite</h1>
+					<p class="text-gray-300 mb-8 text-lg">Rich broth, chewy noodles, and unforgettable taste crafted fresh for you.</p>
+					<div class="flex flex-wrap gap-4">
+						<a href="{% url 'portfolio:menu' %}" class="bg-orange-500 hover:bg-orange-600 px-7 py-3 rounded-full shadow-lg transition transform hover:scale-105">Order Now</a>
+						<a href="{% url 'portfolio:service' %}" class="border border-white/50 px-7 py-3 rounded-full hover:bg-white hover:text-black transition backdrop-blur">View Service</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="popular" class="py-24 bg-gray-100">
+			<div class="text-center mb-16">
+				<span class="inline-block bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm mb-4 tracking-wide">Best Seller</span>
+				<h2 class="text-5xl font-extrabold text-gray-900 tracking-tight">🍜 Popular Menu</h2>
+				<div class="w-20 h-1 bg-orange-500 mx-auto mt-4 rounded-full"></div>
+				<p class="text-gray-500 mt-4 text-lg">Most loved dishes by our customers</p>
+			</div>
+			<div id="popular-products" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 max-w-7xl mx-auto px-6"></div>
+		</section>
+
+		<section id="service" class="py-20 bg-white text-center">
+			<h2 class="text-4xl font-bold text-gray-900">Fresh food, simple ordering</h2>
+			<p class="max-w-2xl mx-auto mt-4 text-gray-500">Choose your favorite bowl, customize it, and enjoy bold noodle flavors made fresh for you.</p>
+		</section>
+	</main>
+
+	<footer id="contact" class="bg-gray-900 text-gray-300">
+		<div class="max-w-7xl mx-auto px-6 py-16 grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+			<div>
+				<h2 class="text-2xl font-bold text-white mb-4 tracking-wide">🍜 NOODLE SHOP</h2>
+				<p class="text-sm text-gray-400 leading-relaxed">Premium noodles crafted with passion. Fresh ingredients, bold flavors, and fast delivery.</p>
+				<div class="flex gap-4 mt-5 text-lg"><a href="#" class="hover:text-white transition">🌐</a><a href="https://web.facebook.com/adenanbeyond/" class="hover:text-white transition">FB</a><a href="https://www.instagram.com/bey0nd_by/" class="hover:text-white transition">IG</a></div>
+			</div>
+			<div><h3 class="text-white font-semibold mb-4">Menu</h3><a href="{% url 'portfolio:menu' %}" class="text-sm hover:text-white transition">All Menu</a></div>
+			<div><h3 class="text-white font-semibold mb-4">Company</h3><a href="{% url 'portfolio:service' %}" class="text-sm hover:text-white transition">Service</a></div>
+			<div>
+				<h3 class="text-white font-semibold mb-4">Get in touch</h3>
+				<ul class="text-sm space-y-3"><li>📞 +66 80 875 7765</li><li>✉️ support@noodleshop.com</li><li>📍 Bangkok, Thailand</li></ul>
+			</div>
+		</div>
+		<div class="border-t border-gray-800 text-center py-6 text-sm text-gray-500">© 2026 Noodle Shop. All rights reserved.</div>
+	</footer>
+
+	<script>
+		document.addEventListener("DOMContentLoaded", () => {
+			const container = document.getElementById("popular-products");
+			products.forEach(product => { product.image = "{% static 'home/' %}" + product.image; });
+			products.filter(product => product.popular).forEach(product => { container.innerHTML += createCard(product); });
+		});
+		window.addEventListener("load", () => {
+			const loader = document.getElementById("loader");
+			setTimeout(() => { loader.classList.add("opacity-0"); setTimeout(() => { loader.style.display = "none"; }, 500); }, 300);
+		});
+	</script>
+</body>
+</html>

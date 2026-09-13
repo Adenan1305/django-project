@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu | Noodle Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Oswald:wght@500;700&family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+    <style>
+        .menu-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 16rem) minmax(0, 1fr);
+            align-items: start;
+            gap: 2rem;
+        }
+
+        .menu-products {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        .menu-products > article { min-width: 0; }
+
+        @media (max-width: 1023px) {
+            .menu-layout { grid-template-columns: 1fr; }
+            .menu-products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
+        @media (max-width: 639px) {
+            .menu-products { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'home/js/products.js' %}" defer></script>
+    <script src="{% static 'home/js/card.js' %}" defer></script>
+</head>
+<body class="font-[Poppins] bg-gray-100 text-gray-800">
+    <header class="sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-6 py-3 bg-white/90 backdrop-blur-lg shadow-md">
+            <div class="flex items-center gap-4">
+                <a class="flex items-center gap-2" href="{% url 'portfolio:index' %}">
+                    <span class="w-9 h-9 rounded-full overflow-hidden block"><img src="{% static 'home/img/logo-NS.png' %}" class="w-full h-full object-cover" alt="Noodle Shop logo"></span>
+                    <span class="text-lg font-semibold">NOODLE SHOP</span>
+                </a>
+                <div class="hidden sm:block w-px h-5 bg-gray-300"></div>
+                <div class="hidden sm:flex items-center text-sm font-medium gap-1">
+                    <a href="{% url 'portfolio:index' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white transition">Home</a>
+                    <a href="{% url 'portfolio:menu' %}" class="px-4 py-1.5 rounded-lg text-orange-600 bg-orange-100">Menu</a>
+                    <a href="{% url 'portfolio:service' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white transition">Service</a>
+                </div>
+            </div>
+            <a href="{% url 'portfolio:cart' %}" class="text-2xl transition transform hover:scale-105" aria-label="View cart">🛒</a>
+        </nav>
+    </header>
+
+    <div class="w-full h-8 bg-gradient-to-b from-gray-800 via-gray-200 to-white"></div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12 font-[Kanit]">
+        <div class="menu-layout">
+            <aside class="h-fit bg-white rounded-2xl shadow-lg p-6 text-center lg:sticky lg:top-28">
+                <h1 class="font-[Oswald] text-4xl mb-4 tracking-widest">MENU</h1>
+                <img src="{% static 'home/img/logo mewnu.jpg' %}" alt="Noodle Shop menu" class="w-24 h-24 rounded-full shadow-md mb-4 mx-auto object-cover">
+                <h2 class="font-bold text-lg">Noodle Shop</h2>
+                <p class="text-xs text-gray-500 mb-5">Fresh &amp; Hot 🔥</p>
+                <div class="w-full h-px bg-gray-200 mb-4"></div>
+                <div class="space-y-2">
+                    <button class="menu-filter menu-btn active" data-type="all">All menu</button>
+                    <button class="menu-filter menu-btn" data-type="noodle">Noodles</button>
+                    <button class="menu-filter menu-btn" data-type="rice">Rice &amp; Combos</button>
+                    <button class="menu-filter menu-btn" data-type="drink">Drinks</button>
+                    <button class="menu-filter menu-btn" data-type="snacks">Snacks</button>
+                </div>
+            </aside>
+
+            <section class="min-w-0 w-full">
+                <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+                    <div><p class="text-orange-600 font-semibold">Cooked fresh for you</p><h2 class="text-4xl font-bold">Our Menu</h2></div>
+                    <p id="menu-count" class="text-gray-500"></p>
+                </div>
+                <div id="menu-grid" class="menu-products"></div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 mt-12">
+        <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
+            <div><h2 class="text-2xl font-bold text-white mb-3">🍜 NOODLE SHOP</h2><p class="text-sm text-gray-400">Fresh ingredients, bold flavors, and fast service.</p></div>
+            <div><h3 class="text-white font-semibold mb-3">Explore</h3><a href="{% url 'portfolio:index' %}" class="block text-sm hover:text-white">Home</a><a href="{% url 'portfolio:menu' %}" class="block text-sm hover:text-white">Menu</a></div>
+            <div><h3 class="text-white font-semibold mb-3">Get in touch</h3><p class="text-sm">📞 +66 80 875 7765</p><p class="text-sm">✉️ support@noodleshop.com</p><p class="text-sm">📍 Bangkok, Thailand</p></div>
+        </div>
+        <div class="border-t border-gray-800 text-center py-5 text-sm text-gray-500">© 2026 Noodle Shop. All rights reserved.</div>
+    </footer>
+
+    <script>
+        if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+        window.scrollTo(0, 0);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const grid = document.getElementById("menu-grid");
+            const count = document.getElementById("menu-count");
+            products.forEach(product => { product.image = "{% static 'home/' %}" + product.image; });
+
+            function renderMenu(type = "all") {
+                const visibleProducts = type === "all" ? products : products.filter(product => product.type === type || (type === "rice" && product.type === "both"));
+                grid.innerHTML = visibleProducts.map(product => createCard(product)).join("");
+                count.textContent = `${visibleProducts.length} items`;
+            }
+
+            document.querySelectorAll(".menu-filter").forEach(button => {
+                button.addEventListener("click", () => {
+                    document.querySelectorAll(".menu-filter").forEach(item => item.classList.remove("active"));
+                    button.classList.add("active");
+                    renderMenu(button.dataset.type);
+                });
+            });
+            renderMenu();
+        });
+    </script>
+</body>
+</html>

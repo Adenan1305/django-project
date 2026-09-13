@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Noodle Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'home/js/products.js' %}" defer></script>
+    <script src="{% static 'home/js/card.js' %}" defer></script>
+    <script src="{% static 'home/js/checkout.js' %}" defer></script>
+</head>
+<body class="font-[Poppins] bg-gray-100 text-gray-800">
+    <header class="sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-6 py-3 bg-white/90 backdrop-blur-lg shadow-md">
+            <div class="flex items-center gap-4">
+                <a class="flex items-center gap-2" href="{% url 'portfolio:index' %}">
+                    <span class="w-9 h-9 rounded-full overflow-hidden block"><img src="{% static 'home/img/logo-NS.png' %}" class="w-full h-full object-cover" alt="Noodle Shop logo"></span>
+                    <span class="text-lg font-semibold">NOODLE SHOP</span>
+                </a>
+                <div class="hidden sm:flex gap-1 text-sm font-medium"><a href="{% url 'portfolio:index' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white">Home</a><a href="{% url 'portfolio:menu' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white">Menu</a></div>
+            </div>
+            <a href="{% url 'portfolio:cart' %}" class="relative text-2xl px-3 py-1.5 rounded-lg text-orange-600 bg-orange-100" aria-label="Your cart">🛒<span id="cart-badge" class="absolute -top-2 -right-1 bg-red-600 text-white text-xs w-5 h-5 items-center justify-center rounded-full hidden">0</span></a>
+        </nav>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 py-10">
+        <h1 class="text-3xl font-bold text-gray-900">Your Cart</h1>
+        <p class="text-gray-500 mt-1">Check your items before ordering</p>
+        <section class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm">
+                <h2 class="font-semibold text-lg mb-4">Items</h2>
+                <div id="cart-items" class="space-y-3"></div>
+                <a href="{% url 'portfolio:menu' %}" class="inline-block mt-6 text-orange-600 font-semibold hover:text-orange-700">← Continue shopping</a>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow h-fit">
+                <h2 class="text-xl font-semibold mb-6">Summary</h2>
+                <div class="space-y-4">
+                    <label class="flex justify-between items-center cursor-pointer"><span>PromptPay</span><input type="radio" name="payment" value="PromptPay"></label>
+                    <label class="flex justify-between items-center cursor-pointer"><span>Cash</span><input type="radio" name="payment" value="Cash"></label>
+                </div>
+                <div id="payment-info" class="mt-4"></div>
+                <div class="mt-6 border-t pt-4 space-y-2 text-sm">
+                    <div class="flex justify-between"><span>Subtotal</span><span>$ <span id="subtotal">0.00</span></span></div>
+                    <div class="flex justify-between"><span>VAT (7%)</span><span>$ <span id="vat">0.00</span></span></div>
+                    <div class="flex justify-between font-bold text-lg"><span>Total</span><span>$ <span id="total">0.00</span></span></div>
+                </div>
+                <button id="confirm-btn" class="w-full mt-6 bg-gradient-to-r from-red-500 to-orange-400 text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">Confirm Order</button>
+            </div>
+        </section>
+    </main>
+    <footer class="bg-gray-900 text-gray-300 mt-12"><div class="max-w-7xl mx-auto px-6 py-10 text-center"><p class="text-white font-semibold">🍜 NOODLE SHOP</p><p class="text-sm text-gray-400 mt-2">Fresh ingredients, bold flavors, and fast service.</p></div><div class="border-t border-gray-800 text-center py-5 text-sm text-gray-500">© 2026 Noodle Shop. All rights reserved.</div></footer>
+</body>
+</html>

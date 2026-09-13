@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register | Noodle Shop</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-orange-50 to-gray-100 flex items-center justify-center min-h-screen px-4">
+    <main class="bg-white w-full max-w-md p-8 sm:p-10 rounded-2xl shadow-xl border border-gray-200">
+        <div class="text-center mb-8">
+            <a href="{% url 'portfolio:index' %}"><img src="{% static 'home/img/logo-NS.png' %}" class="h-16 w-16 mx-auto mb-4 rounded-full object-cover" alt="Noodle Shop logo"></a>
+            <h1 class="text-xl font-semibold text-gray-800">Create your account</h1>
+            <p class="text-sm text-gray-500 mt-1">Join Noodle Shop today</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p class="mb-4 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
+        <form action="{% url 'portfolio:register' %}" method="post" class="space-y-5">
+            {% csrf_token %}
+            <div><label for="email" class="text-sm text-gray-600">Email</label><input id="email" name="email" type="email" autocomplete="email" required value="{{ request.POST.email }}" class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"></div>
+            <div><label for="password" class="text-sm text-gray-600">Password</label><input id="password" name="password" type="password" autocomplete="new-password" required class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"></div>
+            <div><label for="password_confirmation" class="text-sm text-gray-600">Confirm password</label><input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required class="w-full mt-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500"></div>
+            <button type="submit" class="w-full bg-orange-500 text-white py-2.5 rounded-lg font-medium hover:bg-orange-600 transition">Register</button>
+        </form>
+
+        <div class="text-center mt-6 text-sm text-gray-600">Already have an account? <a href="{% url 'portfolio:signin' %}" class="text-orange-500 hover:underline">Sign in</a></div>
+    </main>
+</body>
+</html>

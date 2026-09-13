@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service | Noodle Shop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-[Poppins] bg-gradient-to-b from-orange-50 to-white text-gray-800">
+    <!-- Main navigation: edit these links when adding pages. -->
+    <header class="sticky top-0 z-50">
+        <nav class="flex items-center justify-between px-6 py-3 bg-white/90 backdrop-blur-lg shadow-md">
+            <a class="flex items-center gap-2" href="{% url 'portfolio:index' %}">
+                <img src="{% static 'home/img/logo-NS.png' %}" class="w-9 h-9 rounded-full object-cover" alt="Noodle Shop logo">
+                <span class="text-lg font-semibold">NOODLE SHOP</span>
+            </a>
+            <div class="flex items-center gap-1 text-sm font-medium">
+                <a href="{% url 'portfolio:index' %}" class="px-3 py-2 rounded-lg hover:bg-orange-100">Home</a>
+                <a href="{% url 'portfolio:menu' %}" class="px-3 py-2 rounded-lg hover:bg-orange-100">Menu</a>
+                <a href="{% url 'portfolio:service' %}" class="px-3 py-2 rounded-lg text-orange-600 bg-orange-100">Service</a>
+                <a href="{% url 'portfolio:cart' %}" class="px-3 py-2 text-xl" aria-label="View cart">🛒</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero text: edit the heading and description here. -->
+    <section class="relative overflow-hidden px-6 py-24 text-center">
+        <div class="absolute inset-0 bg-gradient-to-r from-orange-200 via-pink-100 to-yellow-100 opacity-60"></div>
+        <div class="relative max-w-3xl mx-auto">
+            <p class="text-orange-600 font-semibold tracking-wide">Fresh, fast, and made with care</p>
+            <h1 class="text-4xl md:text-6xl font-bold mt-3">Premium Noodle Experience</h1>
+            <p class="text-gray-600 mt-5 text-lg">Simple ordering, fresh ingredients, and delicious noodles prepared for you.</p>
+            <a href="{% url 'portfolio:menu' %}" class="inline-block mt-7 bg-orange-500 text-white px-8 py-3 rounded-full shadow-lg hover:bg-orange-600 transition">Explore Menu 🍜</a>
+        </div>
+    </section>
+
+    <!-- Services: duplicate a card here when adding another service. -->
+    <section class="max-w-6xl mx-auto px-6 py-16">
+        <div class="grid md:grid-cols-3 gap-8">
+            <article class="bg-white p-8 rounded-2xl shadow-md text-center hover:-translate-y-1 transition">
+                <div class="text-4xl mb-4">🍜</div><h2 class="font-semibold text-xl">Authentic Taste</h2><p class="text-gray-500 mt-3">Rich, deep flavor crafted with fresh ingredients.</p>
+            </article>
+            <article class="bg-white p-8 rounded-2xl shadow-md text-center hover:-translate-y-1 transition">
+                <div class="text-4xl mb-4">⚡</div><h2 class="font-semibold text-xl">Fast Service</h2><p class="text-gray-500 mt-3">Quick preparation without compromising taste.</p>
+            </article>
+            <article class="bg-white p-8 rounded-2xl shadow-md text-center hover:-translate-y-1 transition">
+                <div class="text-4xl mb-4">🥬</div><h2 class="font-semibold text-xl">Fresh Ingredients</h2><p class="text-gray-500 mt-3">Ingredients prepared daily for every bowl.</p>
+            </article>
+        </div>
+    </section>
+
+    <section class="bg-white px-6 py-16 text-center">
+        <h2 class="text-3xl font-semibold">How it works</h2>
+        <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 mt-10">
+            <div class="p-6 border rounded-2xl"><div class="text-3xl">🍽️</div><h3 class="font-semibold mt-2">Choose</h3><p class="text-gray-500 text-sm mt-2">Pick your favorite noodles.</p></div>
+            <div class="p-6 border rounded-2xl"><div class="text-3xl">👨‍🍳</div><h3 class="font-semibold mt-2">Cook</h3><p class="text-gray-500 text-sm mt-2">Prepared fresh after you order.</p></div>
+            <div class="p-6 border rounded-2xl"><div class="text-3xl">😋</div><h3 class="font-semibold mt-2">Enjoy</h3><p class="text-gray-500 text-sm mt-2">Hot and ready to enjoy.</p></div>
+        </div>
+    </section>
+
+    <section class="px-6 py-16 text-center"><h2 class="text-3xl font-semibold">Ready to eat?</h2><p class="text-gray-500 mt-3">Noodles are calling you.</p><a href="{% url 'portfolio:menu' %}" class="inline-block mt-6 bg-orange-500 text-white px-10 py-3 rounded-full shadow hover:bg-orange-600 transition">Order Now 🍜</a></section>
+    <footer class="bg-gray-900 text-gray-300 text-center py-10"><p class="text-white font-semibold">🍜 NOODLE SHOP</p><p class="text-sm text-gray-400 mt-2">📞 +66 80 875 7765 · ✉️ support@noodleshop.com · 📍 Bangkok, Thailand</p></footer>
+</body>
+</html>
