@@ -118,7 +118,7 @@ confirmOrder()
 
 }
 
-function confirmOrder(){
+async function confirmOrder(){
 
 const cart = JSON.parse(localStorage.getItem("cart")) || []
 
@@ -134,16 +134,26 @@ alert("Please select payment method")
 return
 }
 
-/* save order */
-localStorage.setItem("lastOrder", JSON.stringify(cart))
+const button = document.getElementById("confirm-btn")
+if(button) button.disabled = true
 
-/* save payment */
-localStorage.setItem("payment", payment.value)
+try {
+  const response = await fetch("/orders/create/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]").value
+    },
+    body: JSON.stringify({cart, payment: payment.value})
+  })
+  const result = await response.json()
+  if(!response.ok) throw new Error(result.error || "Unable to create order")
 
-/* clear cart */
-localStorage.removeItem("cart")
-
-/* go to bill */
-window.location.href = "/bill/"
+  localStorage.removeItem("cart")
+  window.location.href = result.redirect_url
+} catch(error) {
+  alert(error.message)
+  if(button) button.disabled = false
+}
 
 }

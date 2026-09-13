@@ -44,13 +44,7 @@ else if(product.type === "drink"){
 
 // 🍚
 else if(product.type === "rice"){
-  optionsHTML = `
-    <label class="text-sm text-gray-500"></label>
-    <label class="flex items-center gap-2 text-sm">
-      <div class="flex items-center gap-1 px-3 py-1 rounded-full">
-
-    </label>
-  `
+  optionsHTML = ""
 }
 
 // 🍜🍚
@@ -261,4 +255,4 @@ if(totalQty > 0){
 // โหลด
 renderCart()
 updateCartBadge()
-updateSummary() 
+if (typeof updateSummary === "function") updateSummary()

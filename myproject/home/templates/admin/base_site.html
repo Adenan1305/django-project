@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | Noodle Shop Admin{% endblock %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'home/css/admin.css' %}">
+    <script src="{% static 'home/js/theme.js' %}" defer></script>
+{% endblock %}
+
+{% block branding %}
+    <div id="site-name">
+        <a class="admin-brand" href="{% url 'admin:index' %}">
+            <img src="{% static 'home/img/logo mewnu.jpg' %}" alt="Noodle Shop logo">
+            <span>Noodle Shop Admin</span>
+        </a>
+    </div>
+{% endblock %}
+
+{% block nav-global %}
+    <div class="admin-welcome">Order management console</div>
+{% endblock %}

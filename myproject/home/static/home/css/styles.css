@@ -7,6 +7,75 @@ h1, h2 {
     font-family: 'Playfair Display', serif;
 }
 
+.theme-toggle {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  z-index: 9999;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid #fdba74;
+  border-radius: 9999px;
+  background: #fff7ed !important;
+  box-shadow: 0 6px 18px rgb(15 23 42 / 18%);
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: transform .2s ease, background-color .2s ease;
+}
+
+.theme-toggle:hover {
+  background: #ffedd5;
+  transform: translateY(-2px);
+}
+
+html.dark-mode body {
+  color: #f8fafc !important;
+  background: #0f172a !important;
+}
+
+html.dark-mode .bg-gray-100,
+html.dark-mode .bg-white,
+html.dark-mode .bg-white\/80,
+html.dark-mode .bg-white\/90 {
+  background-color: #1e293b !important;
+}
+
+html.dark-mode .bg-gray-900 {
+  background-color: #020617 !important;
+}
+
+html.dark-mode .text-gray-900,
+html.dark-mode .text-gray-800,
+html.dark-mode .text-gray-700,
+html.dark-mode .text-gray-600 {
+  color: #f8fafc !important;
+}
+
+html.dark-mode .text-gray-500,
+html.dark-mode .text-gray-400 {
+  color: #cbd5e1 !important;
+}
+
+html.dark-mode .border-gray-200,
+html.dark-mode .border-gray-300,
+html.dark-mode .border-gray-800 {
+  border-color: #475569 !important;
+}
+
+html.dark-mode input,
+html.dark-mode select,
+html.dark-mode textarea {
+  color: #f8fafc !important;
+  background-color: #1e293b !important;
+  border-color: #64748b !important;
+}
+
+html.dark-mode .theme-toggle {
+  border-color: #64748b;
+  color: #f8fafc;
+  background: #1e293b !important;
+}
+
 .menu-btn{
 display:flex;
 align-items:center;
@@ -20,12 +89,12 @@ transition:0.2s;
 }
 
 .menu-btn:hover{
-background:#f3f4f6;
+background:#fff7ed;
 }
 
 .menu-btn.active{
-background:#f3f4f6;
-color:#ef4444;
+background:#ffedd5;
+color:#ea580c;
 }
 
 @media print {
