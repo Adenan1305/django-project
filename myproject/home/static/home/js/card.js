@@ -163,8 +163,12 @@ let total = 0
 
 cart.forEach(item => {
 
-const extra = item.egg ? 10 : 0
-const price = item.price + extra
+const isReward = item.reward === true
+const extra = !isReward && item.egg ? 10 : 0
+const price = isReward ? 0 : item.price + extra
+const rewardLabel = isReward
+    ? '<p class="text-green-700 text-sm font-semibold">🎁 Reward · 300 points at checkout</p>'
+    : ""
 
 total += price * item.qty
 
@@ -175,16 +179,17 @@ cartContainer.innerHTML += `
         <h3>${item.name}</h3>
         <p>
           ${item.type ? item.type : ""}
-          ${item.noodle ? item.noodle : ""}
-          ${item.egg ? "+ไข่" : ""}
+          ${!isReward && item.noodle ? item.noodle : ""}
+          ${!isReward && item.egg ? "+ไข่" : ""}
         </p>
-        <p>$${price}</p>
+        ${rewardLabel}
+        <p>${isReward ? "FREE" : "$" + price}</p>
     </div>
 
     <div class="flex items-center gap-3">
-        <button onclick="decreaseItem('${item.key}')">-</button>
+        ${isReward ? "" : `<button onclick="decreaseItem('${item.key}')">-</button>`}
         <span>${item.qty}</span>
-        <button onclick="increaseItem('${item.key}')">+</button>
+        ${isReward ? "" : `<button onclick="increaseItem('${item.key}')">+</button>`}
         <button onclick="removeItem('${item.key}')">🗑️</button>
     </div>
 

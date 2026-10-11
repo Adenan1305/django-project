@@ -14,7 +14,13 @@ class Order(models.Model):
 		('cancelled', 'Cancelled'),
 	)
 
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
+	user = models.ForeignKey(
+		User,
+		on_delete=models.SET_NULL,
+		null=True,
+		blank=True,
+		related_name='orders',
+	)
 	payment_method = models.CharField(max_length=20, choices=PAYMENT_METHODS)
 	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
 	subtotal = models.DecimalField(max_digits=10, decimal_places=2)
@@ -26,7 +32,8 @@ class Order(models.Model):
 		ordering = ('-created_at',)
 
 	def __str__(self):
-		return f'Order #{self.pk} - {self.user.email}'
+		customer = self.user.email if self.user_id else 'Guest'
+		return f'Order #{self.pk} - {customer}'
 
 
 class OrderItem(models.Model):
@@ -37,6 +44,19 @@ class OrderItem(models.Model):
 	quantity = models.PositiveIntegerField()
 	noodle = models.CharField(max_length=50, blank=True)
 	egg = models.BooleanField(default=False)
+	is_reward = models.BooleanField(default=False)
 
 	def __str__(self):
 		return f'{self.name} x{self.quantity}'
+
+
+class UserPoints(models.Model):
+	user = models.OneToOneField(
+		User,
+		on_delete=models.CASCADE,
+		related_name='points',
+	)
+	points = models.PositiveIntegerField(default=0)
+
+	def __str__(self):
+		return f'{self.user.username} - {self.points} points'

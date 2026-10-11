@@ -12,6 +12,7 @@
     <script src="{% static 'home/js/card.js' %}" defer></script>
     <script src="{% static 'home/js/checkout.js' %}" defer></script>
     <script src="{% static 'home/js/theme.js' %}" defer></script>
+    <script src="{% static 'home/js/points.js' %}" defer></script>
 </head>
 <body class="font-[Poppins] bg-gray-100 text-gray-800">
     <header class="sticky top-0 z-50">
@@ -23,7 +24,12 @@
                 </a>
                 <div class="hidden sm:flex gap-1 text-sm font-medium"><a href="{% url 'portfolio:index' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white">Home</a><a href="{% url 'portfolio:menu' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white">Menu</a></div>
             </div>
-            <a href="{% url 'portfolio:cart' %}" class="relative text-2xl px-3 py-1.5 rounded-lg text-orange-600 bg-orange-100" aria-label="Your cart">🛒<span id="cart-badge" class="absolute -top-2 -right-1 bg-orange-700 text-white text-xs w-5 h-5 items-center justify-center rounded-full hidden">0</span></a>
+            <div class="flex items-center gap-4">
+                {% if user.is_authenticated %}
+                    <span id="user-points" class="text-sm font-semibold text-amber-700">⭐ <span id="points-value">0</span> Points</span>
+                {% endif %}
+                <a href="{% url 'portfolio:cart' %}" class="relative text-2xl px-3 py-1.5 rounded-lg text-orange-600 bg-orange-100" aria-label="Your cart">🛒<span id="cart-badge" class="absolute -top-2 -right-1 bg-orange-700 text-white text-xs w-5 h-5 items-center justify-center rounded-full hidden">0</span></a>
+            </div>
         </nav>
     </header>
 

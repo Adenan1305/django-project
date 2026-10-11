@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menu | Noodle Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Oswald:wght@500;700&family=Kanit:wght@300;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'home/css/styles.css' %}?v=2">
     <style>
         .menu-layout {
             display: grid;
@@ -34,9 +34,8 @@
         }
     </style>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="{% static 'home/js/products.js' %}" defer></script>
-    <script src="{% static 'home/js/card.js' %}" defer></script>
     <script src="{% static 'home/js/theme.js' %}" defer></script>
+    <script src="{% static 'home/js/points.js' %}" defer></script>
 </head>
 <body class="font-[Poppins] bg-gray-100 text-gray-800">
     <header class="sticky top-0 z-50">
@@ -53,13 +52,63 @@
                     <a href="{% url 'portfolio:service' %}" class="px-4 py-1.5 rounded-lg hover:bg-orange-500 hover:text-white transition">Service</a>
                 </div>
             </div>
-            <a href="{% url 'portfolio:cart' %}" class="text-2xl transition transform hover:scale-105" aria-label="View cart">🛒</a>
+            <div class="flex items-center gap-4">
+                {% if user.is_authenticated %}
+                    <span id="user-points" class="text-sm font-semibold text-amber-700">⭐ <span id="points-value">0</span> Points</span>
+                {% endif %}
+                <a href="{% url 'portfolio:cart' %}" class="text-2xl transition transform hover:scale-105" aria-label="View cart">🛒</a>
+            </div>
         </nav>
     </header>
 
     <div class="w-full h-8 bg-gradient-to-b from-gray-800 via-gray-200 to-white"></div>
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 md:py-12 font-[Kanit]">
+        <details id="rewards-section" class="group mb-10 rounded-3xl bg-gradient-to-br from-amber-50 to-orange-100 p-5 shadow-sm md:p-8">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-4 rounded-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-orange-600">
+                <span>
+                    <span class="block text-sm font-semibold tracking-widest text-orange-600">REWARDS</span>
+                    <span class="mt-1 block text-xl font-bold text-gray-900 md:text-2xl">แลกคะแนน / Redeem Your Points</span>
+                </span>
+                <span class="flex shrink-0 items-center gap-3">
+                    {% if user.is_authenticated %}
+                        <span class="text-sm font-bold text-amber-700 md:text-lg">⭐ <span id="rewards-points-value">0</span> Points</span>
+                    {% else %}
+                        <span class="text-sm font-semibold text-orange-700">Sign in to redeem</span>
+                    {% endif %}
+                    <svg class="h-5 w-5 text-orange-700 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.22 7.22a.75.75 0 0 1 1.06 0L10 10.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 8.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd"/>
+                    </svg>
+                </span>
+            </summary>
+
+            <div class="pt-8">
+                {% if user.is_authenticated %}
+                    <p class="mb-6 text-center text-gray-600">Use your points to enjoy a free treat.</p>
+                    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                        <article class="rounded-2xl bg-white p-6 text-center shadow">
+                            <img src="{% static 'home/img/itim.png' %}" alt="Ice cream" class="mx-auto h-36 w-36 object-contain">
+                            <h3 class="mt-4 text-xl font-bold">Ice cream</h3>
+                            <p class="mt-2 font-bold text-orange-600">⭐ 300 Points</p>
+                            <button type="button" data-redeem-product="9" onclick="redeemReward(9)" class="mt-5 rounded-xl bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50">Redeem</button>
+                        </article>
+                        <article class="rounded-2xl bg-white p-6 text-center shadow">
+                            <img src="{% static 'home/img/DSC09397.jpg' %}" alt="Fried meatballs" class="mx-auto h-36 w-36 rounded-xl object-cover">
+                            <h3 class="mt-4 text-xl font-bold">Fried meatballs</h3>
+                            <p class="mt-2 font-bold text-orange-600">⭐ 300 Points</p>
+                            <button type="button" data-redeem-product="11" onclick="redeemReward(11)" class="mt-5 rounded-xl bg-orange-600 px-6 py-3 font-semibold text-white transition hover:bg-orange-700 disabled:cursor-not-allowed disabled:opacity-50">Redeem</button>
+                        </article>
+                    </div>
+                {% else %}
+                    <div class="text-center">
+                        <p class="text-gray-600">Sign in to earn and redeem reward points.</p>
+                        <a href="{% url 'portfolio:signin' %}?next={% url 'portfolio:menu' %}" class="mt-4 inline-block rounded-xl bg-orange-600 px-5 py-2 font-semibold text-white hover:bg-orange-700">Sign in to redeem</a>
+                    </div>
+                {% endif %}
+                <p id="rewards-status" class="mt-2 text-center text-sm text-red-700" role="status"></p>
+            </div>
+        </details>
+
         <div class="menu-layout">
             <aside class="h-fit bg-white rounded-2xl shadow-lg p-6 text-center lg:sticky lg:top-28">
                 <h1 class="font-[Oswald] text-4xl mb-4 tracking-widest">MENU</h1>
@@ -77,6 +126,86 @@
             </aside>
 
             <section class="min-w-0 w-full">
+                <!-- AI ORDER -->
+                <section class="ai-order-section" data-ai-order-url="{% url 'portfolio:ai_order' %}">
+                    <div class="ai-order-box">
+
+                        <!-- Decorative effects -->
+                        <div class="ai-glow"></div>
+                        <div class="ai-grid"></div>
+
+                        <!-- Top status -->
+                        <div class="ai-topbar">
+                            <div class="ai-status">
+                                <span class="ai-status-dot"></span>
+                                AI ONLINE
+                            </div>
+
+                            <div class="ai-powered">
+                                SMART ORDER
+                            </div>
+                        </div>
+
+                        <!-- Header -->
+                        <div class="ai-order-header">
+                            <div class="ai-icon-wrap">
+                                <div class="ai-icon">✦</div>
+                            </div>
+
+                            <div class="ai-title">
+                                <span class="ai-badge">AI ORDER</span>
+                                <h2>สั่งอาหารด้วย AI</h2>
+                                <p>บอกสิ่งที่อยากกิน แล้วให้ AI จัดออเดอร์ให้คุณ</p>
+                            </div>
+                        </div>
+
+                        <div class="ai-order-input-area">
+                            <div class="ai-input-icon">✦</div>
+                            <input
+                                type="text"
+                                id="aiOrderInput"
+                                placeholder="เช่น ก๋วยเตี๋ยวไก่ 2 ที่ เส้นเล็ก เพิ่มไข่"
+                                autocomplete="off"
+                            >
+
+                            <button
+                                type="button"
+                                id="aiOrderButton"
+                                onclick="submitAIOrder()"
+                            >
+                                <span>สั่งอาหาร</span>
+                                <span class="ai-arrow">→</span>
+                            </button>
+                        </div>
+
+                        <div class="ai-order-example">
+                            <span class="ai-example-label">TRY</span>
+                            <button
+                                type="button"
+                                onclick="useAIExample('ก๋วยเตี๋ยวไก่ 2 ที่ เส้นเล็ก เพิ่มไข่')"
+                            >
+                                🍜 ก๋วยเตี๋ยวไก่ 2 ที่
+                            </button>
+                            <button
+                                type="button"
+                                onclick="useAIExample('น้ำเปล่า 2 ขวด')"
+                            >
+                                💧 น้ำเปล่า 2 ขวด
+                            </button>
+                        </div>
+
+                        <div id="aiOrderResult" class="ai-order-result"></div>
+
+                        <!-- Bottom line -->
+                        <div class="ai-bottom-line">
+                            <span></span>
+                            <p>Natural Language Ordering</p>
+                            <span></span>
+                        </div>
+
+                    </div>
+                </section>
+
                 <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
                     <div><p class="text-orange-600 font-semibold">Cooked fresh for you</p><h2 class="text-4xl font-bold">Our Menu</h2></div>
                     <p id="menu-count" class="text-gray-500"></p>
@@ -86,6 +215,7 @@
         </div>
     </main>
 
+    <!-- FOOTER -->
     <footer class="bg-gray-900 text-gray-300 mt-12">
         <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">
             <div><h2 class="text-2xl font-bold text-white mb-3">🍜 NOODLE SHOP</h2><p class="text-sm text-gray-400">Fresh ingredients, bold flavors, and fast service.</p></div>
@@ -120,5 +250,10 @@
             renderMenu();
         });
     </script>
+
+    <script src="{% static 'home/js/products.js' %}"></script>
+    <script src="{% static 'home/js/card.js' %}"></script>
+    <script src="{% static 'home/js/ai-order.js' %}?v=5"></script>
+    <script src="{% static 'home/js/rewards.js' %}"></script>
 </body>
 </html>

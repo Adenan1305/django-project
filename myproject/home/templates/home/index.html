@@ -6,11 +6,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Noodle Shop</title>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'home/css/styles.css' %}">
+	<link rel="stylesheet" href="{% static 'home/css/styles.css' %}?v=3">
 	<script src="https://cdn.tailwindcss.com"></script>
 	<script src="{% static 'home/js/products.js' %}" defer></script>
 	<script src="{% static 'home/js/card.js' %}" defer></script>
 	<script src="{% static 'home/js/theme.js' %}" defer></script>
+	<script src="{% static 'home/js/ai-order.js' %}?v=5" defer></script>
+	<script src="{% static 'home/js/points.js' %}" defer></script>
 </head>
 <body class="font-[Poppins] bg-gray-100">
 	<div id="loader" class="fixed inset-0 bg-black flex flex-col items-center justify-center z-[9999] transition-opacity">
@@ -38,7 +40,10 @@
 				<a href="{% url 'portfolio:cart' %}" class="text-2xl transition transform hover:scale-105" aria-label="View cart">🛒</a>
 				<div class="w-px h-6 bg-gray-300"></div>
 				{% if user.is_authenticated %}
-					<span class="text-sm text-gray-700">Hi, {{ user.email }}</span>
+					<div class="flex flex-wrap items-center gap-3">
+						<span class="text-sm text-gray-700">Hi, {{ user.email }}</span>
+						<a id="user-points" href="{% url 'portfolio:menu' %}#rewards-section" class="text-sm font-semibold text-amber-700 transition hover:text-orange-700 hover:underline" aria-label="View rewards and redeem points">⭐ <span id="points-value">0</span> Points</a>
+					</div>
 					<form action="{% url 'portfolio:signout' %}" method="post">
 						{% csrf_token %}<button type="submit" class="bg-gray-800 text-white px-4 py-1.5 rounded-full hover:bg-gray-700 transition">Sign Out</button>
 					</form>
@@ -69,6 +74,86 @@
 			</div>
 		</section>
 
+		<!-- AI ORDER -->
+		<section class="home-ai-section" data-ai-order-url="{% url 'portfolio:ai_order' %}">
+			<div class="home-ai-box">
+				<div class="home-ai-glow"></div>
+				<div class="home-ai-grid"></div>
+
+				<!-- STATUS -->
+				<div class="home-ai-topbar">
+					<div class="home-ai-status">
+						<span class="home-ai-dot"></span>
+						AI ONLINE
+					</div>
+
+					<span class="home-ai-powered">SMART ORDER SYSTEM</span>
+				</div>
+
+				<!-- HEADER -->
+				<div class="home-ai-header">
+					<div class="home-ai-icon">✦</div>
+					<div>
+						<span class="home-ai-badge">AI ORDER</span>
+						<h2>สั่งอาหารด้วย AI</h2>
+						<p>พิมพ์สิ่งที่อยากกิน แล้วให้ AI จัดออเดอร์ให้คุณ</p>
+					</div>
+				</div>
+
+				<!-- INPUT -->
+				<div class="home-ai-input-area">
+					<span class="home-ai-input-icon">✦</span>
+					<input
+						type="text"
+						id="aiOrderInput"
+						placeholder="เช่น ก๋วยเตี๋ยวไก่ 2 ที่ เส้นเล็ก เพิ่มไข่"
+						autocomplete="off"
+					>
+					<button
+						type="button"
+						id="aiOrderButton"
+						onclick="submitAIOrder()"
+					>
+						<span>สั่งอาหาร</span>
+						<span>→</span>
+					</button>
+				</div>
+
+				<!-- EXAMPLES -->
+				<div class="home-ai-example">
+					<span>TRY</span>
+					<button
+						type="button"
+						onclick="useAIExample('Chicken noodles 2 servings, thin noodles, add egg')"
+					>
+						🍜 Chicken noodles 2 servings
+					</button>
+					<button
+						type="button"
+						onclick="useAIExample('Bottled water 2 bottles')"
+					>
+						💧 Bottled water 2 bottles
+					</button>
+					<button
+						type="button"
+						onclick="useAIExample('Fried meatballs 1 serving')"
+					>
+						🍢 Fried meatballs 1 serving
+					</button>
+				</div>
+
+				<!-- RESULT -->
+				<div id="aiOrderResult" class="home-ai-result"></div>
+
+				<div class="home-ai-bottom">
+					<span></span>
+					<p>Natural Language Ordering</p>
+					<span></span>
+				</div>
+			</div>
+		</section>
+
+		<!-- POPULAR MENU -->
 		<section id="popular" class="py-24 bg-gray-100">
 			<div class="text-center mb-16">
 				<span class="inline-block bg-orange-100 text-orange-600 px-4 py-1 rounded-full text-sm mb-4 tracking-wide">Best Seller</span>

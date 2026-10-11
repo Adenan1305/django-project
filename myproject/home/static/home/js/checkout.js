@@ -41,7 +41,7 @@ setTimeout(() => {
 
 let subtotal = 0
 cart.forEach(item => {
-  subtotal += item.price * item.qty
+  subtotal += (item.reward === true ? 0 : item.price) * item.qty
   })
   let vat = subtotal * 0.07
   let total = subtotal + vat
@@ -80,7 +80,7 @@ const cart = JSON.parse(localStorage.getItem("cart")) || []
 let subtotal = 0
 
 cart.forEach(item=>{
-     subtotal += item.price * item.qty
+     subtotal += (item.reward === true ? 0 : item.price) * item.qty
 })
 let vat = subtotal * 0.07
 let total = subtotal + vat

@@ -1,69 +1,206 @@
 {% extends "admin/base_site.html" %}
 {% load static %}
 
+{% block bodyclass %}ns-admin-page{% endblock %}
+
 {% block content %}
-<div class="dashboard-shell">
-    <div class="dashboard-heading">
-        <div class="dashboard-brand">
-            <img class="dashboard-brand-logo" src="{% static 'home/img/logo mewnu.jpg' %}" alt="Noodle Shop logo">
+<div class="ns-admin">
+    <aside class="ns-sidebar">
+        <a class="ns-sidebar-brand" href="{% url 'admin:index' %}">
+            <img src="{% static 'home/img/logo mewnu.jpg' %}" alt="Noodle Shop logo">
             <div>
-                <p class="dashboard-eyebrow">NOODLE SHOP ADMIN</p>
-                <h1>Welcome back, Admin</h1>
-                <p class="dashboard-subtitle">Manage your restaurant easily.</p>
+                <strong>NOODLE SHOP</strong>
+                <span>ADMIN CONSOLE</span>
             </div>
-        </div>
-        <a class="dashboard-outline-button" href="{% url 'admin:home_order_changelist' %}">View all orders &rarr;</a>
-    </div>
-
-    <section class="stats-grid" aria-label="Restaurant statistics">
-        <a class="stat-card stat-card-slate" href="{% url 'admin:auth_user_changelist' %}">
-            <span class="stat-icon">👥</span>
-            <strong>{{ dashboard_customer_count }}</strong>
-            <span>Customers</span>
         </a>
-        <div class="stat-card stat-card-revenue">
-            <span class="stat-icon">🪙</span>
-            <strong>฿{{ dashboard_revenue|floatformat:0 }}</strong>
-            <span>Revenue</span>
-        </div>
-    </section>
 
-    <section class="dashboard-section">
-    <div class="section-heading"><h2>Quick Actions</h2></div>
-        <div class="quick-actions">
-            <a class="quick-action" href="{% url 'admin:home_order_changelist' %}">
-                <span class="quick-action-icon">📦</span>
-                <span><strong>Orders <em class="quick-count">{{ dashboard_order_count }}</em></strong><small>Manage customer orders</small></span>
-                <span class="quick-action-arrow">&rarr;</span>
+        <nav class="ns-navigation" aria-label="Admin navigation">
+            <p class="ns-nav-label">WORKSPACE</p>
+            <a class="ns-nav-item active" href="{% url 'admin:index' %}">
+                <span class="ns-nav-icon">⌂</span>
+                Dashboard
             </a>
-            <a class="quick-action" href="{% url 'admin:home_orderitem_changelist' %}">
-                <span class="quick-action-icon">🍜</span>
-                <span><strong>Menu</strong><small>Manage food items</small></span>
-                <span class="quick-action-arrow">&rarr;</span>
+            <a class="ns-nav-item" href="{% url 'admin:home_order_changelist' %}">
+                <span class="ns-nav-icon"><span class="ns-icon-symbol">📦</span></span>
+                Orders
+                <b>{{ dashboard_order_count }}</b>
             </a>
-        </div>
-    </section>
+            <a class="ns-nav-item" href="{% url 'admin:auth_user_changelist' %}">
+                <span class="ns-nav-icon"><span class="ns-icon-symbol">👥</span></span>
+                Customers
+            </a>
+            <p class="ns-nav-label ns-nav-label-space">MANAGEMENT</p>
+            <a class="ns-nav-item" href="{% url 'admin:home_orderitem_changelist' %}">
+                <span class="ns-nav-icon"><span class="ns-icon-symbol">🍜</span></span>
+                Menu items
+            </a>
+        </nav>
 
-    <section class="dashboard-section recent-orders-section">
-    <div class="section-heading">
-            <h2>Recent Orders</h2>
-            <a href="{% url 'admin:home_order_changelist' %}">View all &rarr;</a>
+        <div class="ns-sidebar-bottom">
+            <div class="ns-admin-profile">
+                <div class="ns-avatar">{{ request.user.username|slice:":1"|upper }}</div>
+                <div>
+                    <strong>{{ request.user.get_full_name|default:request.user.username }}</strong>
+                    <span>Administrator</span>
+                </div>
+            </div>
+            <form class="ns-logout-form" method="post" action="{% url 'admin:logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'admin:login' %}">
+                <button class="ns-logout" type="submit">
+                    <span>↪</span>
+                    Sign out
+                </button>
+            </form>
         </div>
-        <div class="recent-orders recent-orders-table">
-            <div class="recent-order-header"><span>#</span><span>Customer</span><span>Items</span><span>Total</span><span>Status</span><span>Date</span></div>
-            {% for order in dashboard_recent_orders %}
-                <a class="recent-order-row" href="{% url 'admin:home_order_change' order.id %}">
-                    <strong>#{{ order.id }}</strong>
-                    <span class="recent-order-customer">{{ order.user.email }}</span>
-                    <span class="recent-order-name">{% with first_item=order.items.all|first %}{{ first_item.name|default:'Order items' }}{% endwith %}</span>
-                    <span class="recent-order-total">฿{{ order.total|floatformat:0 }}</span>
-                    <span class="status-pill status-{{ order.status }}">{{ order.get_status_display }}</span>
-                    <time datetime="{{ order.created_at|date:'c' }}">{{ order.created_at|date:'d M Y H:i' }}</time>
+    </aside>
+
+    <div class="ns-main">
+        <header class="ns-topbar">
+            <div class="ns-mobile-title">
+                <img src="{% static 'home/img/logo mewnu.jpg' %}" alt="">
+                <strong>NOODLE SHOP ADMIN</strong>
+            </div>
+            <div class="ns-topbar-right">
+                <span class="ns-status-online"><span></span>Admin online</span>
+                <button type="button" class="ns-theme-button" data-theme-toggle aria-label="Toggle dark mode" title="Toggle dark mode">🌙</button>
+            </div>
+        </header>
+
+        <main class="ns-content">
+            <section class="ns-welcome">
+                <div>
+                    <span class="ns-eyebrow">RESTAURANT OVERVIEW</span>
+                    <h1>Welcome back, {{ request.user.get_short_name|default:request.user.username }} <span>👋</span></h1>
+                    <p>Here is what is happening in your restaurant today.</p>
+                </div>
+                <a class="ns-primary-button" href="{% url 'admin:home_order_changelist' %}">
+                    <span>View all orders</span>
+                    <span aria-hidden="true">→</span>
                 </a>
-            {% empty %}
-                <div class="empty-dashboard">No orders yet.</div>
-            {% endfor %}
-        </div>
-    </section>
+            </section>
+
+            <section class="ns-stats" aria-label="Restaurant statistics">
+                <a class="ns-stat-card ns-stat-revenue" href="{% url 'admin:home_order_changelist' %}">
+                    <div class="ns-stat-top">
+                        <span class="ns-stat-icon">฿</span>
+                        <span class="ns-stat-arrow">↗</span>
+                    </div>
+                    <span class="ns-stat-label">TOTAL REVENUE</span>
+                    <strong>฿{{ dashboard_revenue|floatformat:0 }}</strong>
+                    <span class="ns-stat-title">Revenue from orders</span>
+                </a>
+                <a class="ns-stat-card ns-stat-dark" href="{% url 'admin:home_order_changelist' %}">
+                    <div class="ns-stat-top">
+                        <span class="ns-stat-icon"><span class="ns-icon-symbol">📦</span></span>
+                        <span class="ns-stat-arrow">↗</span>
+                    </div>
+                    <span class="ns-stat-label">ALL ORDERS</span>
+                    <strong>{{ dashboard_order_count }}</strong>
+                    <span class="ns-stat-title">Customer orders</span>
+                </a>
+                <a class="ns-stat-card ns-stat-dark" href="{% url 'admin:auth_user_changelist' %}">
+                    <div class="ns-stat-top">
+                        <span class="ns-stat-icon"><span class="ns-icon-symbol">👥</span></span>
+                        <span class="ns-stat-arrow">↗</span>
+                    </div>
+                    <span class="ns-stat-label">CUSTOMERS</span>
+                    <strong>{{ dashboard_customer_count }}</strong>
+                    <span class="ns-stat-title">Registered accounts</span>
+                </a>
+                <a class="ns-stat-card ns-stat-pending" href="{% url 'admin:home_orderitem_changelist' %}">
+                    <div class="ns-stat-top">
+                        <span class="ns-stat-icon"><span class="ns-icon-symbol">🍜</span></span>
+                        <span class="ns-live-dot" aria-hidden="true"></span>
+                    </div>
+                    <span class="ns-stat-label">MENU</span>
+                    <strong>{{ dashboard_menu_count }}</strong>
+                    <span class="ns-stat-title">Available menu items</span>
+                </a>
+            </section>
+
+            <section class="ns-dashboard-grid">
+                <section class="ns-orders-card">
+                    <div class="ns-card-header">
+                        <div>
+                            <span class="ns-card-kicker">LATEST ACTIVITY</span>
+                            <h2>Recent Orders</h2>
+                            <p>Review the latest customer orders.</p>
+                        </div>
+                        <a class="ns-view-all" href="{% url 'admin:home_order_changelist' %}">View all <span aria-hidden="true">→</span></a>
+                    </div>
+                    <div class="ns-orders">
+                        <div class="ns-order-head">
+                            <span>#</span>
+                            <span>Customer</span>
+                            <span>Items</span>
+                            <span>Total</span>
+                            <span>Status</span>
+                            <span>Date</span>
+                        </div>
+                        {% for order in dashboard_recent_orders %}
+                            <a class="ns-order-row" href="{% url 'admin:home_order_change' order.id %}">
+                                <strong>#{{ order.id }}</strong>
+                                <span class="ns-customer">{% if order.user %}{{ order.user.email }}{% else %}Guest{% endif %}</span>
+                                <span class="ns-food">{% with first_item=order.items.all|first %}{{ first_item.name|default:'Order items' }}{% endwith %}</span>
+                                <strong class="ns-price">฿{{ order.total|floatformat:0 }}</strong>
+                                <span class="status-pill status-{{ order.status }}">{{ order.get_status_display }}</span>
+                                <time datetime="{{ order.created_at|date:'c' }}">{{ order.created_at|date:'d M Y H:i' }}</time>
+                            </a>
+                        {% empty %}
+                            <div class="ns-empty">
+                                <div>🧾</div>
+                                <strong>No orders yet</strong>
+                                <span>New customer orders will appear here.</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </section>
+
+                <aside class="ns-side-column">
+                    <section class="ns-actions-card">
+                        <div class="ns-card-header compact">
+                            <div>
+                                <span class="ns-card-kicker">SHORTCUTS</span>
+                                <h2>Quick Actions</h2>
+                            </div>
+                        </div>
+                        <a class="ns-action" href="{% url 'admin:home_order_changelist' %}">
+                            <span class="ns-action-icon orange"><span class="ns-icon-symbol">📦</span></span>
+                            <div><strong>Manage orders</strong><span>{{ dashboard_order_count }} total orders</span></div>
+                            <b aria-hidden="true">›</b>
+                        </a>
+                        <a class="ns-action" href="{% url 'admin:auth_user_changelist' %}">
+                            <span class="ns-action-icon yellow"><span class="ns-icon-symbol">👥</span></span>
+                            <div><strong>Customers</strong><span>{{ dashboard_customer_count }} accounts</span></div>
+                            <b aria-hidden="true">›</b>
+                        </a>
+                        <a class="ns-action" href="{% url 'admin:home_orderitem_changelist' %}">
+                            <span class="ns-action-icon dark"><span class="ns-icon-symbol">🍜</span></span>
+                            <div><strong>Menu items</strong><span>Manage the shop menu</span></div>
+                            <b aria-hidden="true">›</b>
+                        </a>
+                    </section>
+
+                    <section class="ns-status-card">
+                        <div class="ns-status-heading">
+                            <div>
+                                <span class="ns-card-kicker">SYSTEM STATUS</span>
+                                <h2>Admin dashboard</h2>
+                            </div>
+                            <span class="ns-open-badge">ONLINE</span>
+                        </div>
+                        <div class="ns-store-status">
+                            <span class="ns-big-status-dot" aria-hidden="true"></span>
+                            <div>
+                                <strong>Management system is active</strong>
+                                <span>Orders and menu data are available.</span>
+                            </div>
+                        </div>
+                    </section>
+                </aside>
+            </section>
+        </main>
+    </div>
 </div>
 {% endblock %}

@@ -5,8 +5,13 @@
 
 {% block extrastyle %}
     {{ block.super }}
-    <link rel="stylesheet" href="{% static 'home/css/admin.css' %}">
-    <script src="{% static 'home/js/theme.js' %}" defer></script>
+    {% if request.path != '/admin/login/' %}
+        <link rel="stylesheet" href="{% static 'home/css/admin-pages.css' %}?v=9">
+    {% endif %}
+    {% if request.path == '/admin/' %}
+        <link rel="stylesheet" href="{% static 'home/css/admin.css' %}?v=8">
+        <script src="{% static 'home/js/theme.js' %}" defer></script>
+    {% endif %}
 {% endblock %}
 
 {% block branding %}

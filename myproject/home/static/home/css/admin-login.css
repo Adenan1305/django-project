@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+    color-scheme: light;
+    --login-orange: #ea580c;
+    --login-orange-light: #f97316;
+    --login-cream: #fff7ed;
+    --login-ink: #172033;
+    --login-muted: #64748b;
+    --login-border: #e5e7eb;
+}
+
+body.login,
+body.login #container {
+    min-height: 100vh;
+    margin: 0;
+    background:
+        radial-gradient(circle at 10% 10%, rgb(249 115 22 / 10%), transparent 30%),
+        #f8f7f4 !important;
+    color: var(--login-ink);
+    font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+body.login {
+    overflow-x: hidden;
+}
+
+body.login #container {
+    display: block;
+    position: relative;
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+}
+
+body.login #main {
+    display: block;
+    width: 100%;
+}
+
+body.login #header {
+    position: absolute;
+    inset: 0 0 auto;
+    display: block !important;
+    min-height: 64px;
+    padding: 0 28px;
+    background: linear-gradient(110deg, var(--login-orange), var(--login-orange-light));
+    box-shadow: 0 5px 18px rgb(194 65 12 / 18%);
+}
+
+body.login #branding {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+}
+
+body.login #branding #site-name {
+    margin: 0;
+}
+
+body.login #branding .admin-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: white !important;
+    font-size: 17px;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+body.login #branding .admin-brand img {
+    display: block;
+    width: 38px;
+    height: 38px;
+    padding: 2px;
+    border: 2px solid rgb(255 255 255 / 75%);
+    border-radius: 50%;
+    background: white;
+    object-fit: cover;
+}
+
+body.login #breadcrumbs,
+body.login #nav-sidebar,
+body.login #user-tools,
+body.login #footer {
+    display: none !important;
+}
+
+body.login .main {
+    min-height: 100vh;
+}
+
+body.login #content-start {
+    display: grid;
+    min-height: 100vh;
+    box-sizing: border-box;
+    place-items: center;
+    padding: 100px 20px 35px;
+}
+
+body.login #content {
+    width: min(100%, 440px);
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 34px !important;
+    border: 1px solid rgb(234 88 12 / 10%);
+    border-radius: 22px;
+    background: white !important;
+    box-shadow: 0 20px 55px rgb(23 32 51 / 10%);
+}
+
+body.login #content > h1 {
+    display: block;
+    margin: 0 0 24px;
+    color: var(--login-ink);
+    font-size: 25px;
+    font-weight: 700;
+}
+
+body.login #content > .login-intro {
+    margin: -17px 0 24px;
+    color: var(--login-muted);
+    font-size: 13px;
+}
+
+body.login #content-main {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+body.login #login-form .form-row {
+    margin: 0 0 18px;
+    padding: 0;
+    border: 0;
+}
+
+body.login #login-form label {
+    display: block;
+    margin-bottom: 7px;
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+body.login #login-form input[type="text"],
+body.login #login-form input[type="password"] {
+    width: 100%;
+    min-height: 46px;
+    box-sizing: border-box;
+    padding: 10px 13px;
+    border: 1px solid var(--login-border);
+    border-radius: 11px;
+    background: #fff;
+    color: var(--login-ink);
+    font: inherit;
+}
+
+body.login #login-form input[type="text"]:focus,
+body.login #login-form input[type="password"]:focus {
+    border-color: var(--login-orange-light);
+    outline: 0;
+    box-shadow: 0 0 0 4px rgb(249 115 22 / 13%);
+}
+
+body.login #login-form .password-reset-link {
+    margin: -4px 0 18px;
+    font-size: 12px;
+}
+
+body.login #login-form .password-reset-link a {
+    color: var(--login-orange);
+}
+
+body.login #login-form .submit-row {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+}
+
+body.login #login-form input[type="submit"] {
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 11px;
+    background: linear-gradient(120deg, var(--login-orange), var(--login-orange-light));
+    color: white;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+body.login #login-form input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 20px rgb(234 88 12 / 22%);
+}
+
+body.login #login-form input[type="submit"]:active {
+    transform: scale(.98);
+}
+
+body.login .errornote,
+body.login #login-form .errorlist {
+    color: #b91c1c;
+    font-size: 12px;
+}
+
+@media (max-width: 520px) {
+    body.login #header {
+        padding: 0 16px;
+    }
+
+    body.login #content {
+        padding: 25px 21px !important;
+        border-radius: 18px;
+    }
+}
