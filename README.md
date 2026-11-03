@@ -66,6 +66,7 @@ python manage.py test
 
 - **GitHub repository:** [Adenan1305/django-project](https://github.com/Adenan1305/django-project)
 - **Presentation slides:** [Download the PowerPoint deck](submission/Noodle_Shop_Presentation_Slides.pptx)
+- **Presentation slides PDF:** [Download the PDF](submission/Noodle_Shop_Presentation_Slides.pdf)
 - **Article report:** [Download the English report](submission/Article_Report_English.docx)
 
 The `submission/` folder contains the requested presentation and report. The application source remains in `myproject/`.
