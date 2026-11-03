@@ -17,3 +17,6 @@ myproject/db.sqlite3
 venv/
 .idea/
 .vscode/
+
+# Local presentation build and QA outputs
+.presentation-build/

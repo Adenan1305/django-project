@@ -62,6 +62,14 @@ cd myproject
 python manage.py test
 ```
 
+## Submission materials
+
+- **GitHub repository:** [Adenan1305/django-project](https://github.com/Adenan1305/django-project)
+- **Presentation slides:** [Download the PowerPoint deck](submission/Noodle_Shop_Presentation_Slides.pptx)
+- **Article report:** [Download the English report](submission/Article_Report_English.docx)
+
+The `submission/` folder contains the requested presentation and report. The application source remains in `myproject/`.
+
 ## Security notes
 
 - Do not commit `.env` files, API keys, production secret keys, local databases, or virtual environments.
